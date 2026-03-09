@@ -1,34 +1,20 @@
 """
-Unit of Work pattern.
+Unit of Work — SQLAlchemy implementation.
 
 Coordinates committing the database transaction and publishing domain
 events atomically (from the application's perspective).
+
+The abstract ``UnitOfWork`` port lives in ``src.shared.domain.unit_of_work``
+so that Application-layer code never depends on Infrastructure.
 """
 
 from __future__ import annotations
-
-from abc import ABC, abstractmethod
 
 from sqlalchemy.orm import Session
 
 from src.shared.domain.base import AggregateRoot
 from src.shared.domain.event_bus import EventBus
-
-
-class UnitOfWork(ABC):
-    """Abstract unit of work — each module extends this to expose its repos."""
-
-    @abstractmethod
-    def commit(self) -> None: ...
-
-    @abstractmethod
-    def rollback(self) -> None: ...
-
-    @abstractmethod
-    def __enter__(self) -> "UnitOfWork": ...
-
-    @abstractmethod
-    def __exit__(self, exc_type, exc_val, exc_tb) -> None: ...
+from src.shared.domain.unit_of_work import UnitOfWork
 
 
 class SqlAlchemyUnitOfWork(UnitOfWork):

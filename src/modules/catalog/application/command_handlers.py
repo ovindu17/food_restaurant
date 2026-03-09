@@ -27,7 +27,7 @@ from src.modules.catalog.domain.exceptions import (
 )
 from src.modules.catalog.domain.repositories import DishRepository
 from src.modules.catalog.domain.value_objects import DishId, Money, Portions, SellerId
-from src.shared.infrastructure.unit_of_work import SqlAlchemyUnitOfWork
+from src.shared.domain.unit_of_work import UnitOfWork
 
 MAX_ACTIVE_DISHES_PER_SELLER = 50
 
@@ -50,7 +50,7 @@ def _to_dto(dish: Dish) -> DishResponseDTO:
 # Create Dish
 # ---------------------------------------------------------------------------
 class CreateDishHandler:
-    def __init__(self, repository: DishRepository, uow: SqlAlchemyUnitOfWork) -> None:
+    def __init__(self, repository: DishRepository, uow: UnitOfWork) -> None:
         self._repo = repository
         self._uow = uow
 
@@ -83,7 +83,7 @@ class CreateDishHandler:
 # Deactivate Dish
 # ---------------------------------------------------------------------------
 class DeactivateDishHandler:
-    def __init__(self, repository: DishRepository, uow: SqlAlchemyUnitOfWork) -> None:
+    def __init__(self, repository: DishRepository, uow: UnitOfWork) -> None:
         self._repo = repository
         self._uow = uow
 
@@ -105,7 +105,7 @@ class DeactivateDishHandler:
 # Change Price
 # ---------------------------------------------------------------------------
 class ChangeDishPriceHandler:
-    def __init__(self, repository: DishRepository, uow: SqlAlchemyUnitOfWork) -> None:
+    def __init__(self, repository: DishRepository, uow: UnitOfWork) -> None:
         self._repo = repository
         self._uow = uow
 
@@ -127,7 +127,7 @@ class ChangeDishPriceHandler:
 # Deduct Portions
 # ---------------------------------------------------------------------------
 class DeductPortionsHandler:
-    def __init__(self, repository: DishRepository, uow: SqlAlchemyUnitOfWork) -> None:
+    def __init__(self, repository: DishRepository, uow: UnitOfWork) -> None:
         self._repo = repository
         self._uow = uow
 
