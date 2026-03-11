@@ -17,6 +17,11 @@ from src.modules.catalog.presentation.exception_handlers import (
     catalog_exception_handler,
 )
 from src.modules.catalog.presentation.router import router as catalog_router
+from src.modules.orders.domain.exceptions import OrderDomainError
+from src.modules.orders.presentation.exception_handlers import (
+    order_exception_handler,
+)
+from src.modules.orders.presentation.router import router as orders_router
 from src.shared.infrastructure.database import Base, engine
 
 logging.basicConfig(level=logging.INFO)
@@ -52,7 +57,11 @@ app = FastAPI(
 app.include_router(catalog_router, prefix="/api/v1")
 app.add_exception_handler(CatalogDomainError, catalog_exception_handler)  # type: ignore[arg-type]
 
-# 2. Future modules (Orders, Users, Notifications) go here …
+# 2. Orders
+app.include_router(orders_router, prefix="/api/v1")
+app.add_exception_handler(OrderDomainError, order_exception_handler)  # type: ignore[arg-type]
+
+# 3. Future modules (Users, Notifications) go here …
 
 
 # ---------------------------------------------------------------------------
